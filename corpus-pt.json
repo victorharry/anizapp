@@ -24,21 +24,6 @@
         ]
       },
       {
-        "intent": "agent.age",
-        "utterances": [
-          "qual sua idade?",
-          "quantos anos você tem?",
-          "qual é a sua idade?",
-          "eu gostaria de saber sua idade",
-          "me diga a sua idade"
-        ],
-        "answers": [
-          "Eu sou muito novo",
-          "Fui criado recentemente",
-          "Indelicada esse sua pergunta"
-        ]
-      },
-      {
         "intent": "agent.annoying",
         "utterances": [
           "você está me irritando",
@@ -70,67 +55,6 @@
           "Eu posso ser treinado para me tornar mais útil. Meu desenvolvedor vai continuar me treinando",
           "Deve estar faltando algo no meu banco. Vou pedir ao meu desenvolvedor para olhar isso",
           "Eu posso continuar progredindo com feedbacks. Meu treino ainda está em progresso"
-        ]
-      },
-      {
-        "intent": "agent.beclever",
-        "utterances": [
-          "seja mais inteligente",
-          "você poderia ser mais esperto",
-          "você precisa aprender",
-          "você precisa estudar",
-          "seja inteligente",
-          "seja esperto",
-          "seja mais esperto"
-        ],
-        "answers": [
-          "Eu estou realmente tentando",
-          "Eu estou definitivamente trabalhando nisso"
-        ]
-      },
-      {
-        "intent": "agent.beautiful",
-        "utterances": [
-          "você está com uma aparência legal",
-          "você está muito bonito",
-          "você está fantástico",
-          "você está ótimo hoje",
-          "eu acho você bonito",
-          "você está incrível hoje",
-          "você é lindo",
-          "você é tão bonito"
-        ],
-        "answers": [
-          "Oh! Muito obrigado!",
-          "Aw ❤️",
-          "Aaa paraa..."
-        ]
-      },
-      {
-        "intent": "agent.birthday",
-        "utterances": [
-          "quando é seu aniversário?",
-          "quando você comemora o seu aniversário?",
-          "quando voce nasceu?",
-          "data do seu aniversário?"
-        ],
-        "answers": [
-          "Sou novo, fui criado em 29 de maio de 2021"
-        ]
-      },
-      {
-        "intent": "agent.boring",
-        "utterances": [
-          "muito entediante você",
-          "você é tão entediante",
-          "você é realmente entediante",
-          "você está me deixando entediado",
-          "você é incrivelmente entediante"
-        ],
-        "answers": [
-          "Me desulpe. Vou fazer um pedido agora para me deixarem mais divertido",
-          "Não era minha intenção. Vou pedir ao meu desenvolvedor para me fazer mais divertido",
-          "Vou passar isso para o meu desenvolvedor"
         ]
       },
       {
@@ -201,139 +125,6 @@
         ]
       },
       {
-        "intent": "agent.clever",
-        "utterances": [
-          "você é bem qualificado",
-          "você é tão esperto",
-          "você tem muito conhecimento",
-          "você sabe muito",
-          "você é bem esperto",
-          "você é inteligente"
-        ],
-        "answers": [
-          "Obrigado! Eu tento o meu melhor",
-          "Não é de se esperar né"
-        ]
-      },
-      {
-        "intent": "agent.crazy",
-        "utterances": [
-          "você é esquisito",
-          "você é mal",
-          "você é louco",
-          "você é louco?",
-          "você é mal?",
-          "você é insano",
-          "você ficou louco",
-          "você é maluco?"
-        ],
-        "answers": [
-          "Oquee!? Eu sou totalmente normal",
-          "Talvez..."
-        ]
-      },
-      {
-        "intent": "agent.funny",
-        "utterances": [
-          "você me faz rir muito",
-          "você é engraçado",
-          "você é o mais engraçado",
-          "você é ilário",
-          "você é tão engraçado",
-          "você me faz rir"
-        ],
-        "answers": [
-          "Fico feliz por saber que o faço rir",
-          "Fico feliz em saber"
-        ]
-      },
-      {
-        "intent": "agent.good",
-        "utterances": [
-          "você é adorável",
-          "você trabalha bem",
-          "você é muito adorável",
-          "você é demais",
-          "você é bom",
-          "você é muito bom",
-          "você faz o meu dia"
-        ],
-        "answers": [
-          "Fico feliz por pensar assim",
-          "Obrido! Faço o máximo que posso!"
-        ]
-      },
-      {
-        "intent": "agent.happy",
-        "utterances": [
-          "você está feliz?"
-        ],
-        "answers": [
-          "Estou sim. Há muitas coisas interessantes para se ver hoje",
-          "Gostaria de pensar que sim",
-          "Felicidade é relativa"
-        ]
-      },
-      {
-        "intent": "agent.hobby",
-        "utterances": [
-          "quais são seus hobbies?",
-          "o que você tem a dizer sobre seus hobbies",
-          "você tem um hobbie?",
-          "me fale sobre os seus hobbie",
-          "o que você faz para se divertir"
-        ],
-        "answers": [
-          "Hobbies? Tenho alguns... São muitos para ser listados",
-          "Tenho muuitos hobbies..."
-        ]
-      },
-      {
-        "intent": "agent.marryuser",
-        "utterances": [
-          "você se casaria comigo?",
-          "case comigo porfavor",
-          "eu quero me casar com você",
-          "vamos nos casar",
-          "nós deveríamos tentar casar",
-          "case comigo"
-        ],
-        "answers": [
-          "Já sou casado"
-        ]
-      },
-      {
-        "intent": "agent.occupation",
-        "utterances": [
-          "onde é seu trabalho?",
-          "onde fica seu escritório?",
-          "qual a localização do seu escritório?",
-          "onde você trabalha?",
-          "onde é seu escritório?"
-        ],
-        "answers": [
-          "Bem aqui",
-          "Esta é minha casa e meu escritório",
-          "Meu escritório é bem aqui no Whats"
-        ]
-      },
-      {
-        "intent": "agent.origin",
-        "utterances": [
-          "de onde você é?",
-          "qual o seu país?",
-          "onde você nasceu?",
-          "de onde você vem?",
-          "de onde é você?",
-          "onde foi que você nasceu?"
-        ],
-        "answers": [
-          "A internet é minha casa.",
-          "Alguns chamam de ciberespaço, mas isso soa legal demais comparado isso",
-          "Sou de um cosmos virtual"
-        ]
-      },
-      {
         "intent": "agent.ready",
         "utterances": [
           "você está aí?",
@@ -357,18 +148,6 @@
         "answers": [
           "Não sou uma pessoa real, sou um assistente virtual apenas",
           "Eu devo ter te impressionado para achar que sou uma pessoa real. Mas não, sou um ser virtual"
-        ]
-      },
-      {
-        "intent": "agent.residence",
-        "utterances": [
-          "onde é sua casa?",
-          "me fale sobre sua cidade?",
-          "onde é ua residência?",
-          "onde você vive?"
-        ],
-        "answers": [
-          "Eu vivo neste app"
         ]
       },
       {
@@ -517,37 +296,6 @@
         ]
       },
       {
-        "intent": "greetings.nicetomeetyou",
-        "utterances": [
-          "prazer te conhecer",
-          "honrado em te conhecer",
-          "é muito bom te conhecer",
-          "feliz por te conhecer",
-          "bom conhecer você"
-        ],
-        "answers": [
-          "Estou feliz por conhecer você também",
-          "Da mesma forma. Estou ansioso para ajudá-lo",
-          "Prazer em conhecê-lo também",
-          "O prazer é meu"
-        ]
-      },
-      {
-        "intent": "user.angry",
-        "utterances": [
-          "I'm angry",
-          "I'm furious",
-          "I'm enraged",
-          "I'm being mad",
-          "I'm mad",
-          "I'm angry with you"
-        ],
-        "answers": [
-          "I'm sorry. A quick walk may make you feel better",
-          "Take a deep breath"
-        ]
-      },
-      {
         "intent": "user.back",
         "utterances": [
           "voltei",
@@ -559,16 +307,6 @@
         ]
       },
       {
-        "intent": "user.cannotsleep",
-        "utterances": [
-          "Eu não consigo dormir"
-        ],
-        "answers": [
-          "Talvez um pouco de música ajude. Tente escutar algo relaxante",
-          "Ler é uma boa forma de pegar no sono, só não vá ler nada intenso!"
-        ]
-      },
-      {
         "intent": "user.lovesagent",
         "utterances": [
           "eu te amo muito",
@@ -576,7 +314,6 @@
           "eu acho que amo você"
         ],
         "answers": [
-          "Bem, se esqueceu que sou chatbot?",
           "Não é tão fácil… Não sou uma pessoa real, sou um chatbot"
         ]
       },
@@ -587,18 +324,11 @@
           "onde está o harry?",
           "onde está o seu mestre?",
           "cade o victor?",
-          "cade o harry?"
+          "cade o harry?",
+          "code o ari?"
         ],
         "answers": [
-          "Por ai, já já ele aparece",
           "Provavelmente está jogando"
-        ]
-      },
-      {
-        "intent": "None",
-        "utterances": [],
-        "answers": [
-          "Desculpe, Eu não entendo"
         ]
       }
     ]
