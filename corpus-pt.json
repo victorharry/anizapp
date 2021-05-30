@@ -19,7 +19,7 @@
         "answers": [
           "Eu sou uma assistente virtual 🤖",
           "Pense em mim como uma assistente virtual 🤖",
-          "Bem, eu não sou um humano, sou uma assistente virtual",
+          "Bem, eu não sou um humano, sou um assistente virtual 🤖",
           "Sou um ser virtual, não uma pessoa real..."
         ]
       },
@@ -492,7 +492,9 @@
           "olá",
           "oi",
           "hello",
-          "eai"
+          "eai",
+          "opa",
+          "salve"
         ],
         "answers": [
           "Olá, como vai?",
