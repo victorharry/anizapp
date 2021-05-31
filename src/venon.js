@@ -9,8 +9,8 @@ venom
     });
 
 function start(client) {
-    client.onMessage( (message) => {
-        if (message.body.length > 1 && message.isGroupMsg === false) {
+    client.onMessage((message) => {
+        if (message.body.length > 1 && message.isGroupMsg === false && !message.chat.contact.isBusiness && message.sender.name != "Amor") {
             (async () => {
                 const dock = await dockStart();
                 const nlp = dock.get('nlp');
