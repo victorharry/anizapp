@@ -18,41 +18,79 @@ venom
 
 function start(client) {
     client.onMessage(async (message) => {
-        console.log(message)
-        if (message.body == "$m") {
-            const persona = await axios.get(`http://localhost:3000/roulette`);
-            (async () => {
-                await client
-                    .sendImage(
-                        // message.chat.groupMetadata.id,
-                        message.from,
-                        persona.data.sprites[0],
-                        persona.data.name,
-                        `❤️ ${persona.data.name} ❤️\n\n *_$marry ${persona.data.name}_* \n\n` + '```Roulette by:\n```' + `*${message.sender.pushname}*` 
-                    )
-                    .then((result) => {
-                        console.log('Result: ', result);
-                    })
-                    .catch((erro) => {
-                        console.error('Error when sending: ', erro);
-                    });
-            })();
+        const command = message.body.match(/^\$\w*/g) ? message.body.match(/^\$\w*/g)[0] : null
+        switch (command) {
+            case '$mni':
+                sendPersona(client, message)
+                break
+            case '$m':
+                sendPersonaWithImage(client, message)
+                break
+            case '$im':
+                sendChosenPersona(client, message)
+                break
         }
     });
 }
-// (async () => {
-//     const dock = await dockStart();
-//     const nlp = dock.get('nlp');
-//     const response = await nlp.process('pt', message.body);
-//     console.log(response);
-//     if (response.answer) {
-//         client
-//             .sendText(message.from, response.answer)
-//             .then((result) => {
-//                 //console.log('Result: ', result); //return object success
-//             })
-//             .catch((erro) => {
-//                 //console.error('Error when sending: ', erro); //return object error
-//             });
-//     }
-// })();
+
+async function sendPersonaWithImage(client, message) {
+    const persona = await axios.get(`http://localhost:3000/persona/roulette`);
+    client
+        .sendImage(
+            message.chat.groupMetadata.id,
+            persona.data.sprites[0],
+            persona.name,
+            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${message.sender.pushname}*`
+        )
+        .then((result) => {
+            // console.log('Result: ', result);
+        })
+        .catch((erro) => {
+            // console.error('Error when sending: ', erro);
+        });
+}
+
+async function sendPersona(client, message) {
+    const persona = await axios.get(`http://localhost:3000/persona/roulette`);
+    client
+        .sendText(
+            message.chat.groupMetadata.id,
+            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${message.sender.pushname}*`
+        )
+        .then((result) => {
+            //console.log('Result: ', result); //return object success
+        })
+        .catch((erro) => {
+            //console.error('Error when sending: ', erro); //return object error
+        });
+}
+
+async function sendChosenPersona(client, message) {
+    const queryPersona = { name: message.body.replace('$im', '').trim() }
+    const persona = await axios.post(`http://localhost:3000/persona/search`, queryPersona)
+
+    if (persona.data) {
+        client
+            .sendImage(
+                message.chat.groupMetadata.id,
+                persona.data.sprites[0],
+                persona.name,
+                `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n` + '```Requested by:\n```' + `*${message.sender.pushname}*`
+            )
+            .then((result) => {
+                // console.log('Result: ', result);
+            })
+            .catch((erro) => {
+                // console.error('Error when sending: ', erro);
+            });
+    } else {
+        client
+            .sendText(message.from, `❌ *${queryPersona.name} não encontrado* ❌`)
+            .then((result) => {
+                //console.log('Result: ', result); //return object success
+            })
+            .catch((erro) => {
+                //console.error('Error when sending: ', erro); //return object error
+            });
+    }
+}

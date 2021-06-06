@@ -4,9 +4,9 @@ const Persona = require('../models/Persona');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/roulette', async (req, res) => {
     try {
-        const personas = await Persona.count().exec(function (err, count) {
+        const personas = await Persona.countDocuments().exec(function (err, count) {
 
             // Get a random entry
             var random = Math.floor(Math.random() * count)
@@ -24,4 +24,16 @@ router.get('/', async (req, res) => {
     }
 });
 
-module.exports = app => app.use('/roulette', router)
+router.post('/search', async (req, res) => {
+    const personaName = new RegExp("^" +req.body.name, "i")
+
+    try {
+        const persona = await Persona.findOne({ name: personaName }).exec();
+        return res.json(persona)
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ error: 'error' })
+    }
+});
+
+module.exports = app => app.use('/persona', router)
