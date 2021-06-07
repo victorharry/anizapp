@@ -16,21 +16,33 @@ venom
         console.log(erro);
     });
 
-function start(client) {
+async function start(client) {
     client.onMessage(async (message) => {
-        const command = message.body.match(/^\$\w*/g) ? message.body.match(/^\$\w*/g)[0] : null
-        switch (command) {
-            case '$mni':
-                sendPersona(client, message)
-                break
-            case '$m':
-                sendPersonaWithImage(client, message)
-                break
-            case '$im':
-                sendChosenPersona(client, message)
-                break
+        if (verifyUser(message) && message.chat.groupMetadata.owner === "553184374282@c.us") {
+            const command = message.body.match(/^\$\w*/g) ? message.body.match(/^\$\w*/g)[0] : null
+            switch (command) {
+                case '$mni':
+                    sendPersona(client, message)
+                    break
+                case '$m':
+                    sendPersonaWithImage(client, message)
+                    break
+                case '$im':
+                    sendChosenPersona(client, message)
+                    break
+            }
         }
     });
+}
+
+async function verifyUser(message) {
+    try {
+        await axios.post('http://localhost:3000/user/verify', message.sender)
+        return true
+    } catch (err) {
+        console.error(err)
+        return false
+    }
 }
 
 async function sendPersonaWithImage(client, message) {

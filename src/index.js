@@ -1,12 +1,11 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const app = express()
 
-app.use(bodyParser.json())
+app.use(express.json())
 
 require('./venon');
-require('./controllers/mhwController')(app);
-
+require('./controllers/personaController')(app);
+require('./controllers/userController')(app);
 
 app.use(function(req, res, next) {
     res.status(404).send("Rota invalida")

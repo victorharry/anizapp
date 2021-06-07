@@ -1,5 +1,4 @@
 const express = require('express');
-
 const Persona = require('../models/Persona');
 
 const router = express.Router();
