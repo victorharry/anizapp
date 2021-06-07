@@ -1,5 +1,6 @@
 const venom = require('venom-bot');
 const axios = require('axios')
+let roulettePersonas = []
 
 venom
     .create(
@@ -55,7 +56,7 @@ async function sendPersonaWithImage(client, message) {
             `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${message.sender.pushname}*`
         )
         .then((result) => {
-            // console.log('Result: ', result);
+            timerToMarry(persona.data)
         })
         .catch((erro) => {
             // console.error('Error when sending: ', erro);
@@ -64,13 +65,14 @@ async function sendPersonaWithImage(client, message) {
 
 async function sendPersona(client, message) {
     const persona = await axios.get(`http://localhost:3000/persona/roulette`);
+
     client
         .sendText(
             message.chat.groupMetadata.id,
             `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${message.sender.pushname}*`
         )
         .then((result) => {
-            //console.log('Result: ', result); //return object success
+            timerToMarry(persona.data)
         })
         .catch((erro) => {
             //console.error('Error when sending: ', erro); //return object error
@@ -105,4 +107,12 @@ async function sendChosenPersona(client, message) {
                 //console.error('Error when sending: ', erro); //return object error
             });
     }
+}
+
+function timerToMarry(persona) {
+    roulettePersonas.push(persona._id)
+    setTimeout(() => {
+        const index = roulettePersonas.findIndex(element => element == 'persona._id')
+        roulettePersonas.splice( index, 1)
+    }, 10000);
 }
