@@ -1,1 +1,1 @@
-whatsapp_bot
+Anizapp
