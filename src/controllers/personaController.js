@@ -22,7 +22,7 @@ router.get('/roulette', async (req, res) => {
                 })
         })
     } catch (err) {
-        console.log(err)
+        console.error(err)
         return res.status(400).send({ error: 'error' })
     }
 })
@@ -35,10 +35,9 @@ router.get('/status/:id', async (req, res) => {
             const user = await User.findOne({ _id: userPersona.user_id }).exec()
             return res.status(200).json(user)
         }
-        console.log(2)
         return res.status(200).send(null)
     } catch (err) {
-        console.log(err)
+        console.error(err)
         return res.status(400).send({ error: 'error' })
     }
 })
@@ -50,7 +49,7 @@ router.post('/search', async (req, res) => {
         const persona = await Persona.findOne({ name: personaName }).exec();
         return res.json(persona)
     } catch (err) {
-        console.log(err)
+        console.error(err)
         return res.status(400).send({ error: 'error' })
     }
 })
@@ -61,7 +60,7 @@ router.post('/marry', async (req, res) => {
         await UserStatus.findOneAndUpdate({ user_id: req.body.user_id }, { marry: false })
         return res.status(201).json(marry)
     } catch (err) {
-        console.log(err)
+        console.error(err)
         return res.status(500).send({ error: 'error' })
     }
 })
