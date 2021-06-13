@@ -124,7 +124,7 @@ async function sendPersonaWithImage(client, messageObject) {
                 sendPersona(client, messageObject) // GAMBS PARA FIX DE ERRO TEMPORARIO DE IMG NULA, ARRUMAR
             }
         } else {
-            const message = `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes}`
+            const message = `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes`
             client
                 .sendText(
                     messageObject.chat.groupMetadata.id,
@@ -158,7 +158,7 @@ async function sendPersona(client, messageObject) {
                     timerToMarry(persona.data)
                 }).catch(err => console.error(err))
         } else {
-            const message = `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes}`
+            const message = `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes`
             client
                 .sendText(
                     messageObject.chat.groupMetadata.id,
