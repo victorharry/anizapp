@@ -124,7 +124,7 @@ async function sendPersonaWithImage(client, messageObject) {
                 sendPersona(client, messageObject) // GAMBS PARA FIX DE ERRO TEMPORARIO DE IMG NULA, ARRUMAR
             }
         } else {
-            const message = "Você não possui rolls no momento"
+            const message = "Você não possui rolls no momento ⌚ (rolls de 30 em 30 minutos)"
             client
                 .sendText(
                     messageObject.chat.groupMetadata.id,
@@ -138,20 +138,33 @@ async function sendPersonaWithImage(client, messageObject) {
 
 async function sendPersona(client, messageObject) {
     try {
-        const persona = await axios.get(`http://localhost:3000/persona/roulette/${messageObject.sender.id}`);
-        const verifyPersonaStatus = await axios.get(`http://localhost:3000/persona/status/${persona.data._id}`)
-        const message = !verifyPersonaStatus.data ?
-            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${messageObject.sender.pushname}*`
-            :
-            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with ${verifyPersonaStatus.data.name} 💍\n\n` + '```Roulette by:\n```' + `*${messageObject.sender.pushname}*`
-        client
-            .sendText(
-                messageObject.chat.groupMetadata.id,
-                message
-            )
-            .then((result) => {
-                timerToMarry(persona.data)
-            }).catch(err => console.error(err))
+        const userStatus = await axios.get(`http://localhost:3000/user/status/${messageObject.sender.id}`)
+        if (userStatus.data.rolls > 0) {
+            await axios.get(`http://localhost:3000/user/status/roll/${messageObject.sender.id}`)
+            const persona = await axios.get(`http://localhost:3000/persona/roulette`)
+            const verifyPersonaStatus = await axios.get(`http://localhost:3000/persona/status/${persona.data._id}`)
+
+            const message = !verifyPersonaStatus.data ?
+                `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${messageObject.sender.pushname}*`
+                :
+                `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with ${verifyPersonaStatus.data.name} 💍\n\n` + '```Roulette by:\n```' + `*${messageObject.sender.pushname}*`
+                
+            client
+                .sendText(
+                    messageObject.chat.groupMetadata.id,
+                    message
+                )
+                .then((result) => {
+                    timerToMarry(persona.data)
+                }).catch(err => console.error(err))
+        } else {
+            const message = "Você não possui rolls no momento ⌚ (rolls de 30 em 30 minutos)"
+            client
+                .sendText(
+                    messageObject.chat.groupMetadata.id,
+                    message
+                ).catch(err => console.error(err))
+        }
     } catch (err) {
         console.error(err)
     }
@@ -199,7 +212,7 @@ async function marry(client, user, messageObject) {
             console.error(err)
         }
     } else {
-        const message = "Você não pode se casar no momento"
+        const message = "Você não pode se casar no momento ⌚ (casamentos de 1 em 1 hora)"
         client
             .sendText(
                 messageObject.chat.groupMetadata.id,
