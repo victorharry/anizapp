@@ -1,7 +1,7 @@
 {
-  "name": "whatsapp_bot",
+  "name": "anizapp",
   "version": "1.0.0",
-  "description": "My whatsapp bot",
+  "description": "It's a bot that works like Mudae Bot for Whatsapp",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -16,6 +16,7 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongoose": "^5.12.13",
+    "node-schedule": "^2.0.0",
     "venom-bot": "^3.0.17"
   },
   "devDependencies": {

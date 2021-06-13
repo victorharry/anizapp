@@ -1,12 +1,12 @@
 const mongoose = require('../database');
 
 const UserSchema = new mongoose.Schema({
-    name: {
+    _id: {
         type: String,
         require: true
     },
 
-    phone: {
+    name: {
         type: String,
         require: true
     },
