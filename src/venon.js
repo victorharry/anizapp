@@ -124,7 +124,7 @@ async function sendPersonaWithImage(client, messageObject) {
                 sendPersona(client, messageObject) // GAMBS PARA FIX DE ERRO TEMPORARIO DE IMG NULA, ARRUMAR
             }
         } else {
-            const message = "Você não possui rolls no momento ⌚ (rolls de 30 em 30 minutos)"
+            const message = `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes}`
             client
                 .sendText(
                     messageObject.chat.groupMetadata.id,
@@ -148,7 +148,7 @@ async function sendPersona(client, messageObject) {
                 `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${messageObject.sender.pushname}*`
                 :
                 `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with ${verifyPersonaStatus.data.name} 💍\n\n` + '```Roulette by:\n```' + `*${messageObject.sender.pushname}*`
-                
+
             client
                 .sendText(
                     messageObject.chat.groupMetadata.id,
@@ -158,7 +158,7 @@ async function sendPersona(client, messageObject) {
                     timerToMarry(persona.data)
                 }).catch(err => console.error(err))
         } else {
-            const message = "Você não possui rolls no momento ⌚ (rolls de 30 em 30 minutos)"
+            const message = `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes}`
             client
                 .sendText(
                     messageObject.chat.groupMetadata.id,
@@ -212,7 +212,7 @@ async function marry(client, user, messageObject) {
             console.error(err)
         }
     } else {
-        const message = "Você não pode se casar no momento ⌚ (casamentos de 1 em 1 hora)"
+        const message = `Você não pode se casar no momento ⌚ ${getMinutesUntilNextHour()}m restantes`
         client
             .sendText(
                 messageObject.chat.groupMetadata.id,
@@ -236,3 +236,11 @@ function feedBack(client, where, message) {
             message
         )
 }
+
+function getMinutesUntilNextHour() { return 60 - new Date().getMinutes() }
+
+function getMinutesUntilNextThirty() { 
+    if(0 >= (30 - new Date().getMinutes())) return 60 - new Date().getMinutes();
+    return 30 - new Date().getMinutes()
+}
+
