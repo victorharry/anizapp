@@ -38,6 +38,10 @@ const marry_timer = schedule.scheduleJob('0 * * * *', async () => {
 });
 
 async function start(client) {
+    client.onStreamChange((state) => {
+        console.log('State Connection Stream: ' + state);
+    });
+
     client.onAnyMessage(async (message) => {
         try {
             if (message.chat.isGroup && message.chat.groupMetadata.owner === "553184374282@c.us") {
@@ -73,7 +77,6 @@ async function start(client) {
 }
 
 async function transformToSticker(client, message) {
-    // const buf = Buffer.from(message.body, 'base64');
     // Generates sticker from the provided animated gif image and sends it (Send image as animated sticker)
     // image path imageBase64 A valid gif and webp image is required. You can also send via http/https (http://www.website.com/img.gif)
     await client
@@ -97,11 +100,14 @@ async function verifyUser(message) {
 async function sendPersonaWithImage(client, messageObject) {
     try {
         const userStatus = await axios.get(`http://localhost:3000/user/status/${messageObject.sender.id}`)
+        console.log(1)
         if (userStatus.data.rolls > 0) {
             await axios.get(`http://localhost:3000/user/status/roll/${messageObject.sender.id}`)
+            console.log(2)
             const persona = await axios.get(`http://localhost:3000/persona/roulette`)
+            console.log(persona.data)
             const verifyPersonaStatus = await axios.get(`http://localhost:3000/persona/status/${persona.data._id}`)
-
+            console.log(4)
             const message = !verifyPersonaStatus.data ?
                 `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${messageObject.sender.pushname}*`
                 :
@@ -239,8 +245,8 @@ function feedBack(client, where, message) {
 
 function getMinutesUntilNextHour() { return 60 - new Date().getMinutes() }
 
-function getMinutesUntilNextThirty() { 
-    if(0 >= (30 - new Date().getMinutes())) return 60 - new Date().getMinutes();
+function getMinutesUntilNextThirty() {
+    if (0 >= (30 - new Date().getMinutes())) return 60 - new Date().getMinutes();
     return 30 - new Date().getMinutes()
 }
 
