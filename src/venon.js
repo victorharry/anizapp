@@ -9,9 +9,7 @@ venom
         // options
         {
             folderNameToken: 'tokens', //folder name when saving tokens
-            mkdirFolderToken: '../tokens', //folder directory tokens, just inside the venom folder, example:  { mkdirFolderToken: '/node_modules', } //will save the tokens folder in the node_modules directory
-            disableWelcome: true, // Will disable the welcoming message which appears in the beginning
-            createPathFileToken: true, //creates a folder when inserting an object in the client's browser, to work it is necessary to pass the parameters in the function create browserSessionToken
+            disableWelcome: false, // Will disable the welcoming message which appears in the beginning
         },
     )
     .then((client) => start(client))
@@ -44,7 +42,7 @@ async function start(client) {
 
     client.onAnyMessage(async (message) => {
         try {
-            // if (message.chat.isGroup && message.chat.groupMetadata.owner === "553184374282@c.us") {
+            if (message.chat.isGroup && message.chat.groupMetadata.owner === "553184374282@c.us") {
                 const user = await verifyUser(message)
                 let command = ''
                 if (message.type == 'image') {
@@ -53,13 +51,13 @@ async function start(client) {
                     command = message.body.match(/^\$\w*/g) ? message.body.match(/^\$\w*/g)[0] : null
                 }
                 switch (command) {
-                    case '$mni':
+                    case '$rni':
                         sendPersona(client, message)
                         break
-                    case '$m':
+                    case '$r':
                         sendPersonaWithImage(client, message)
                         break
-                    case '$im':
+                    case '$s':
                         sendChosenPersona(client, message)
                         break
                     case '$marry':
@@ -69,7 +67,7 @@ async function start(client) {
                         transformToSticker(client, message)
                         break
                 }
-            // }
+            }
         } catch (err) {
             console.error(err)
         }
@@ -100,7 +98,6 @@ async function verifyUser(message) {
 async function sendPersonaWithImage(client, messageObject) {
     try {
         const userStatus = await axios.get(`http://localhost:3000/user/status/${messageObject.sender.id}`)
-        console.log(1)
         if (userStatus.data.rolls > 0) {
             await axios.get(`http://localhost:3000/user/status/roll/${messageObject.sender.id}`)
             const persona = await axios.get(`http://localhost:3000/persona/roulette`)
@@ -175,7 +172,7 @@ async function sendPersona(client, messageObject) {
 
 async function sendChosenPersona(client, messageObject) {
     try {
-        const personaName = messageObject.body.replace('$im', '').trim()
+        const personaName = messageObject.body.replace('$s', '').trim()
         const queryPersona = { name: personaName }
         const persona = await axios.post(`http://localhost:3000/persona/search`, queryPersona)
         const verifyPersonaStatus = await axios.get(`http://localhost:3000/persona/status/${persona.data._id}`)
@@ -246,4 +243,3 @@ function getMinutesUntilNextThirty() {
     if (0 >= (30 - new Date().getMinutes())) return 60 - new Date().getMinutes();
     return 30 - new Date().getMinutes()
 }
-
