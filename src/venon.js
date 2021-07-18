@@ -35,7 +35,7 @@ const marry_timer = schedule.scheduleJob('0 * * * *', async () => {
     }
 });
 
-const keepAlive = () => {
+const keepAlive = (client) => {
     // function to detect conflits and change status
     // Force it to keep the current session
     // Possible state values:
@@ -83,7 +83,7 @@ const keepAlive = () => {
 }
 
 async function start(client) {
-    keepAlive()
+    keepAlive(client)
     // client.onStreamChange((state) => {
     //     console.log('State Connection Stream: ' + state);
     // });
