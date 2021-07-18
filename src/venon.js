@@ -35,10 +35,58 @@ const marry_timer = schedule.scheduleJob('0 * * * *', async () => {
     }
 });
 
-async function start(client) {
+const keepAlive = () => {
+    // function to detect conflits and change status
+    // Force it to keep the current session
+    // Possible state values:
+    // CONFLICT
+    // CONNECTED
+    // DEPRECATED_VERSION
+    // OPENING
+    // PAIRING
+    // PROXYBLOCK
+    // SMB_TOS_BLOCK
+    // TIMEOUT
+    // TOS_BLOCK
+    // UNLAUNCHED
+    // UNPAIRED
+    // UNPAIRED_IDLE
+    client.onStateChange((state) => {
+        console.log('State changed: ', state);
+        // force whatsapp take over
+        if ('CONFLICT'.includes(state)) client.useHere();
+        // detect disconnect on whatsapp
+        if ('UNPAIRED'.includes(state)) console.log('logout');
+    });
+
+    // DISCONNECTED
+    // SYNCING
+    // RESUMING
+    // CONNECTED
+    let time = 0;
     client.onStreamChange((state) => {
         console.log('State Connection Stream: ' + state);
+        clearTimeout(time);
+        if (state === 'DISCONNECTED' || state === 'SYNCING') {
+            time = setTimeout(() => {
+                client.close();
+            }, 80000);
+        }
     });
+
+    // function to detect incoming call
+    client.onIncomingCall(async (call) => {
+        console.log(call);
+        client.sendText(call.peerJid, "Sorry, I still can't answer calls");
+    });
+
+}
+
+async function start(client) {
+    keepAlive()
+    // client.onStreamChange((state) => {
+    //     console.log('State Connection Stream: ' + state);
+    // });
 
     client.onAnyMessage(async (message) => {
         try {
