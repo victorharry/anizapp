@@ -57,9 +57,9 @@ async function getPersonaWithImage(sender, group_id) {
             const persona = await axios.get(`${process.env.BASE_URI}/persona/roulette`)
             const married = await axios.get(`${process.env.BASE_URI}/persona/status/${persona.data._id}`)
             const message = married ?
-                `❤️ *${persona.name}* ❤️\n\n${persona.title}\n\n_$marry ${persona.name}_\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
+                `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
                 :
-                `❤️ *${persona.name}* ❤️\n\n${persona.title}\n\n💍 Married with ${married.name} 💍\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
+                `❤️ *${persona.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with ${married.name} 💍\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
             sendPersona(group_id, persona.data, message)
         } else {
             sendMessage(group_id, `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes`)
@@ -77,7 +77,7 @@ async function getPersonaWithoutImage(sender, group_id) {
             const persona = await axios.get(`${process.env.BASE_URI}/persona/roulette`)
             const married = await axios.get(`${process.env.BASE_URI}/persona/status/${persona.data._id}`)
             const message = married ?
-                `❤️ *${persona.name}* ❤️\n\n${persona.title}\n\n_$marry ${persona.name}_\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
+                `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n_$marry ${persona.data.name}_\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
                 :
                 `❤️ *${persona.name}* ❤️\n\n${persona.title}\n\n💍 Married with ${married.name} 💍\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
             sendMessage(group_id, message)
