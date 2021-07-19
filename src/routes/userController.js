@@ -54,7 +54,6 @@ router.get('/status/marry/:id', async (req, res) => {
 });
 
 router.get('/reset/rolls', async (req, res) => {
-    const id = req.params.id
     try {
         const user_status = await UserStatus.updateMany({}, { rolls: 10 })
         return res.status(201).json(user_status)
@@ -65,7 +64,6 @@ router.get('/reset/rolls', async (req, res) => {
 });
 
 router.get('/reset/marry', async (req, res) => {
-    const id = req.params.id
     try {
         const user_status = await UserStatus.updateMany({ marry: true })
         return res.status(201).json(user_status)
