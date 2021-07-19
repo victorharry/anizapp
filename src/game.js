@@ -89,9 +89,19 @@ async function getPersonaWithoutImage(sender, group_id) {
     }
 }
 
-const createGame = () => {
+const verifyUser = async (sender) => {
+    try {
+        const user = await axios.post(`${process.env.BASE_URI}/user/verify`, sender)
+        return user.data
+    } catch(error) {
+        console.log(error)
+    }
+}
+
+const createGame =  () => {
     // Refatorar esse switch horroroso
-    function inputCommand(messageObject) {
+    async function inputCommand(messageObject) {
+        await verifyUser(messageObject.sender)
         let formatted_command = ''
         if (messageObject.type == 'image') {
             formatted_command = messageObject.caption.match(/^\$\w*/g) ? messageObject.caption.match(/^\$\w*/g)[0] : null
@@ -117,7 +127,6 @@ const createGame = () => {
             //     sendSticker(messageObject.chat.groupMetadata.id, messageObject.body);
             //     break
         }
-
     }
 
     return {
