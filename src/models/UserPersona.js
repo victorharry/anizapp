@@ -1,6 +1,6 @@
-const mongoose = require('../database') , Schema = mongoose.Schema;
-const User = require('./User');
-const Persona = require('./Persona');
+import mongoose from '../database/mongoose.js';
+
+const Schema = mongoose.Schema;
 
 const UserPersonaSchema = new Schema({
     user_id: {
@@ -16,4 +16,4 @@ const UserPersonaSchema = new Schema({
 
 const UserPersona = mongoose.model('users_personas', UserPersonaSchema);
 
-module.exports = UserPersona;
+export default UserPersona;

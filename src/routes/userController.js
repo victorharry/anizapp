@@ -1,8 +1,8 @@
-const express = require('express');
-const User = require('../models/User');
-const UserStatus = require('../models/UserStatus');
+import { Router as expressRouter } from 'express';
+import UserStatus from '../models/UserStatus.js';
+import User from '../models/User.js';
 
-const router = express.Router();
+const router = expressRouter();
 
 router.post('/verify', async (req, res) => {
     try {
@@ -75,4 +75,4 @@ router.get('/reset/marry', async (req, res) => {
     }
 });
 
-module.exports = app => app.use('/user', router)
+export default router;

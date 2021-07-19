@@ -1,4 +1,6 @@
-const mongoose = require('../database') , Schema = mongoose.Schema;
+import mongoose from '../database/mongoose.js';
+
+const Schema = mongoose.Schema;
 
 const UserStatusSchema = new Schema({
     user_id: { 
@@ -21,4 +23,4 @@ const UserStatusSchema = new Schema({
 
 const UserStatus = mongoose.model('users_statuses', UserStatusSchema);
 
-module.exports = UserStatus;
+export default UserStatus;
