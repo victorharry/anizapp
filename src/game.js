@@ -30,6 +30,11 @@ async function sendChosenPersona(sender, group_id, personaName) {
     }
 }
 
+async function sendGameRules(sender) {
+    const message ="*Regras do Jogo 📖*\n\nOs jogadores devem roletar personagens para tomar posse dos seus favoritos ou de seus inimigos para oferecer uma futura troca ⚔️\n\n_*Comandos:*_\n\n*$r* _roleta um personagem mandando junto suas imagem_\n*$rni* _roleta um personagem sem mandar sua imagem_\n*$s [PERSONAGEM]* _procura pelo personagem solicitado_\n*$marry [PERSONAGEM]* _após roletar um personagem você tem 25 segundos para se casar com aquele personagem_\n*$help* _você receberá esta mensagem de ajuda_"
+    sendMessage(sender.id, message)
+}
+
 async function marry(sender, group_id, requestedPersona) {
     const userStatus = await axios.get(`${process.env.BASE_URI}/user/status/${sender.id}`)
     if (userStatus.data.marry) {
@@ -93,12 +98,12 @@ const verifyUser = async (sender) => {
     try {
         const user = await axios.post(`${process.env.BASE_URI}/user/verify`, sender)
         return user.data
-    } catch(error) {
+    } catch (error) {
         console.log(error)
     }
 }
 
-const createGame =  () => {
+const createGame = () => {
     // Refatorar esse switch horroroso
     async function inputCommand(messageObject) {
         await verifyUser(messageObject.sender)
@@ -123,6 +128,8 @@ const createGame =  () => {
                 const requestedPersona = messageObject.body.replace('$marry', '').trim()
                 marry(messageObject.sender, messageObject.chat.groupMetadata.id, requestedPersona)
                 break
+            case '$help': 
+                sendGameRules(messageObject.sender)
             // case '$sticker': // Revisar problemas
             //     sendSticker(messageObject.chat.groupMetadata.id, messageObject.body);
             //     break
