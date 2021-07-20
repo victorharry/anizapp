@@ -19,7 +19,7 @@ async function sendChosenPersona(sender, group_id, personaName) {
         const message = !married.data ?
             `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n` + '```Requested by:\n```' + `*${sender.pushname}*`
             :
-            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with *${verifyPersonaStatus.data.name}* 💍\n\n` + '```Requested by:\n```' + `*${sender.pushname}*`
+            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with *${married.data.name}* 💍\n\n` + '```Requested by:\n```' + `*${sender.pushname}*`
         if (persona.data) {
             sendPersona(group_id, persona.data, message)
         } else {
