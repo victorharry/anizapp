@@ -31,7 +31,7 @@ async function sendChosenPersona(sender, group_id, personaName) {
 }
 
 async function sendGameRules(sender) {
-    const message ="*Regras do Jogo 📖*\n\nOs jogadores devem roletar personagens para tomar posse dos seus favoritos ou de seus inimigos para oferecer uma futura troca ⚔️\n\n_*Comandos:*_\n\n*$r* _roleta um personagem mandando junto suas imagem_\n*$rni* _roleta um personagem sem mandar sua imagem_\n*$s [PERSONAGEM]* _procura pelo personagem solicitado_\n*$marry [PERSONAGEM]* _após roletar um personagem você tem 25 segundos para se casar com aquele personagem_\n*$help* _você receberá esta mensagem de ajuda_"
+    const message ="*Regras do Jogo 📖*\n\nOs jogadores devem roletar personagens para tomar posse dos seus favoritos ou de seus inimigos para oferecer uma futura troca ⚔️\n\n_*Comandos:*_\n\n*$r* _roleta um personagem mandando junto sua imagem_\n*$rni* _roleta um personagem sem mandar sua imagem_\n*$s [PERSONAGEM]* _procura pelo personagem solicitado_\n*$marry [PERSONAGEM]* _após roletar um personagem você tem 25 segundos para se casar com aquele personagem_\n*$help* _você receberá esta mensagem de ajuda_"
     sendMessage(sender.id, message)
 }
 
