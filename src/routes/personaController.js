@@ -3,7 +3,7 @@ import Persona from '../models/Persona.js';
 import UserPersona from '../models/UserPersona.js';
 import UserStatus from '../models/UserStatus.js';
 import User from '../models/User.js';
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const ObjectId = mongoose.Types.ObjectId;
 const router = expressRouter();
@@ -58,7 +58,8 @@ router.post('/search', async (req, res) => {
 router.post('/marry', async (req, res) => {
     try {
         const marry = await UserPersona.create({ user_id: req.body.user_id, persona_id: new ObjectId(req.body.persona_id) })
-        const status = await UserStatus.findOneAndUpdate({ user_id: req.body.user_id }, { marry: false })
+        console.log(marry)
+        const status = await UserStatus.findOneAndUpdate({ user_id: req.body.user_id }, { marry: true })
         return res.status(201).json(marry)
     } catch (err) {
         console.error(err)

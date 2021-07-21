@@ -4,6 +4,7 @@ const events = (client) => {
     // Prevents Venom from losing current session after time
     // [START]
     client.onStateChange((state) => {
+        console.log(state)
         // force whatsapp take over
         if ('CONFLICT'.includes(state)) client.useHere();
         // detect disconnect on whatsapp
@@ -12,6 +13,7 @@ const events = (client) => {
     
     let time = 0;
     client.onStreamChange((state) => {
+        console.log(state)
         clearTimeout(time);
         if (state === 'DISCONNECTED' || state === 'SYNCING') {
             time = setTimeout(() => {
