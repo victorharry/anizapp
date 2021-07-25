@@ -30,9 +30,10 @@ async function sendChosenPersona(sender, group_id, personaName) {
     }
 }
 
-async function sendGameRules(sender) {
+async function sendGameRules(sender, group_id) {
     const message ="*Regras do Jogo 📖*\n\nOs jogadores devem roletar personagens para tomar posse dos seus favoritos ou de seus inimigos para oferecer uma futura troca ⚔️\n\n_*Comandos:*_\n\n*$r* _roleta um personagem mandando junto sua imagem_\n*$rni* _roleta um personagem sem mandar sua imagem_\n*$s [PERSONAGEM]* _procura pelo personagem solicitado_\n*$marry [PERSONAGEM]* _após roletar um personagem você tem 25 segundos para se casar com aquele personagem_\n*$help* _você receberá esta mensagem de ajuda_"
     sendMessage(sender.id, message)
+    sendMessage(group_id, `Regras enviadas no privado *${sender.pushname}*`)
 }
 
 async function marry(sender, group_id, requestedPersona) {
@@ -129,7 +130,7 @@ const createGame = () => {
                 marry(messageObject.sender, messageObject.chat.groupMetadata.id, requestedPersona)
                 break
             case '$help': 
-                sendGameRules(messageObject.sender)
+                sendGameRules(messageObject.sender, messageObject.chat.groupMetadata.id)
             // case '$sticker': // Revisar problemas
             //     sendSticker(messageObject.chat.groupMetadata.id, messageObject.body);
             //     break
