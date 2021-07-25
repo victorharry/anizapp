@@ -59,7 +59,7 @@ router.post('/marry', async (req, res) => {
     try {
         const marry = await UserPersona.create({ user_id: req.body.user_id, persona_id: new ObjectId(req.body.persona_id) })
         console.log(marry)
-        const status = await UserStatus.findOneAndUpdate({ user_id: req.body.user_id }, { marry: true })
+        const status = await UserStatus.findOneAndUpdate({ user_id: req.body.user_id }, { marry: false })
         return res.status(201).json(marry)
     } catch (err) {
         console.error(err)
