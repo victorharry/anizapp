@@ -1,5 +1,6 @@
 import { sendPersona, sendMessage, sendSticker } from './whatsapp/message.js'
-import personaStorage from './personaStorage.js';
+import personaStorage from './personaStorage.js'
+import createTradeOffersStorage from './tradeOffersStorage.js'
 import axios from 'axios';
 
 function getMinutesUntilNextThirty() {
@@ -30,8 +31,31 @@ async function sendChosenPersona(sender, group_id, personaName) {
     }
 }
 
+async function tradePersona(sender, group_id, personaName, remittee) {
+    try {
+        const queryPersona = { name: personaName }
+        const persona = await axios.post(`${process.env.BASE_URI}/persona/search`, queryPersona)
+        const married = await axios.get(`${process.env.BASE_URI}/persona/status/${persona.data._id}`)
+        if (married.data && sender.id == married.data.user_id) {
+            const offer = createTradeOffersStorage.tradeOffers.find(offer => offer.remittee_id === sender.id)
+            let remitteeInfo = ''
+            if (offer) {
+                remitteeInfo = await verifyUser({ id: offer.remittee_id })
+                const message = `*${sender.name}*, *${remitteeInfo.name}* ofereceu *${persona.data.name}*. Digite *$sim* para confirmar a troca👥`
+                sendMessage(group_id, message, createTradeOffersStorage.timerToTrade(sender.id, persona.data._id, `${remittee}@c.us`, true))
+            } else {
+                remitteeInfo = await verifyUser({ id: `${remittee}@c.us` })
+                const message = `*${remitteeInfo.name}*, *${sender.name}* gostaria de trocar *${persona.data.name}* com você. 👥`
+                sendMessage(group_id, message, createTradeOffersStorage.timerToTrade(sender.id, persona.data._id, `${remittee}@c.us`))
+            }
+        }
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 async function sendGameRules(sender, group_id) {
-    const message ="*Regras do Jogo 📖*\n\nOs jogadores devem roletar personagens para tomar posse dos seus favoritos ou de seus inimigos para oferecer uma futura troca ⚔️\n\n_*Comandos:*_\n\n*$r* _roleta um personagem mandando junto sua imagem_\n*$rni* _roleta um personagem sem mandar sua imagem_\n*$s [PERSONAGEM]* _procura pelo personagem solicitado_\n*$marry [PERSONAGEM]* _após roletar um personagem você tem 25 segundos para se casar com aquele personagem_\n*$help* _você receberá esta mensagem de ajuda_"
+    const message = "*Regras do Jogo 📖*\n\nOs jogadores devem roletar personagens para tomar posse dos seus favoritos ou de seus inimigos para oferecer uma futura troca ⚔️\n\n_*Comandos:*_\n\n*$r* _roleta um personagem mandando junto sua imagem_\n*$rni* _roleta um personagem sem mandar sua imagem_\n*$s [PERSONAGEM]* _procura pelo personagem solicitado_\n*$marry [PERSONAGEM]* _após roletar um personagem você tem 25 segundos para se casar com aquele personagem_\n*$help* _você receberá esta mensagem de ajuda_"
     sendMessage(sender.id, message)
     sendMessage(group_id, `Regras enviadas no privado *${sender.pushname}*`)
 }
@@ -104,6 +128,16 @@ const verifyUser = async (sender) => {
     }
 }
 
+const confirmTrade = async (sender, group_id) => {
+    try {
+        const offer = createTradeOffersStorage.tradeOffers.find(offer => offer.remittee_id === sender.id && offer.confirm)
+        const message = 'Troca feita com sucesso 🤝'
+        sendMessage(group_id, message)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 const createGame = () => {
     // Refatorar esse switch horroroso
     async function inputCommand(messageObject) {
@@ -129,8 +163,17 @@ const createGame = () => {
                 const requestedPersona = messageObject.body.replace('$marry', '').trim()
                 marry(messageObject.sender, messageObject.chat.groupMetadata.id, requestedPersona)
                 break
-            case '$help': 
+            case '$trade':
+                const trade = messageObject.body.split(' ')
+                tradePersona(messageObject.sender, messageObject.chat.groupMetadata.id, trade[1], trade[2].replace('@', ''))
+                // sendGameRules(messageObject.sender, messageObject.chat.groupMetadata.id)
+                break
+            case '$help':
                 sendGameRules(messageObject.sender, messageObject.chat.groupMetadata.id)
+                break
+            case '$sim':
+                confirmTrade(messageObject.sender, messageObject.chat.groupMetadata.id)
+                break
             // case '$sticker': // Revisar problemas
             //     sendSticker(messageObject.chat.groupMetadata.id, messageObject.body);
             //     break

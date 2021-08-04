@@ -25,7 +25,7 @@ const events = (client) => {
 
     // Detect incoming messages from Whatsapp
     client.onAnyMessage(async (message) => {
-        if (message.chat.isGroup && message.chat.groupMetadata.owner === "553184374282@c.us") {
+        if (message.chat.isGroup && message.chat.groupMetadata.owner === `${process.env.BOT_NUMBER}@c.us`) {
             game.inputCommand(message)
         }
     })

@@ -22,12 +22,15 @@ const sendPersona = (remittee, persona, message) => {
     }
 }
 
-const sendMessage = (remittee, message) => {
+const sendMessage = (remittee, message, resolve = null) => {
     client
         .sendText(
             remittee,
             message
-        ).catch(err => console.error(err))
+        ).then(() => {
+            if(resolve) resvolve()
+        })
+        .catch(err => console.error(err))
 }
 
 const sendSticker = (remittee, image) => {

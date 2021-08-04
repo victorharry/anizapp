@@ -7,7 +7,7 @@ const connection = async () => {
         const client = await venom.create(
             {
                 folderNameToken: 'tokens',
-                disableWelcome: false,
+                disableWelcome: true,
             },
         )
         events(client) // Pensar em uma forma melhor, estilo Redux
