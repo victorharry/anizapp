@@ -17,10 +17,11 @@ async function sendChosenPersona(sender, group_id, personaName) {
         const queryPersona = { name: personaName }
         const persona = await axios.post(`${process.env.BASE_URI}/persona/search`, queryPersona)
         const married = await axios.get(`${process.env.BASE_URI}/persona/status/${persona.data._id}`)
+        const user = await verifyUser({ id: married.data.user_id })
         const message = !married.data ?
             `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n` + '```Requested by:\n```' + `*${sender.pushname}*`
             :
-            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with *${married.data.name}* 💍\n\n` + '```Requested by:\n```' + `*${sender.pushname}*`
+            `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n💍 Married with *${user.name}* 💍\n\n` + '```Requested by:\n```' + `*${sender.pushname}*`
         if (persona.data) {
             sendPersona(group_id, persona.data, message)
         } else {
@@ -41,11 +42,11 @@ async function tradePersona(sender, group_id, personaName, remittee) {
             let remitteeInfo = ''
             if (offer) {
                 remitteeInfo = await verifyUser({ id: offer.remittee_id })
-                const message = `*${sender.name}*, *${remitteeInfo.name}* ofereceu *${persona.data.name}*. Digite *$sim* para confirmar a troca👥`
+                const message = `*${sender.pushname}*, *${remitteeInfo.name}* ofereceu *${persona.data.name}*. Digite *$sim* para confirmar a troca👥`
                 sendMessage(group_id, message, createTradeOffersStorage.timerToTrade(sender.id, persona.data._id, `${remittee}@c.us`, true))
             } else {
                 remitteeInfo = await verifyUser({ id: `${remittee}@c.us` })
-                const message = `*${remitteeInfo.name}*, *${sender.name}* gostaria de trocar *${persona.data.name}* com você. 👥`
+                const message = `*${remitteeInfo.name}*, *${sender.pushname}* gostaria de trocar *${persona.data.name}* com você. 👥`
                 sendMessage(group_id, message, createTradeOffersStorage.timerToTrade(sender.id, persona.data._id, `${remittee}@c.us`))
             }
         }
@@ -69,7 +70,7 @@ async function marry(sender, group_id, requestedPersona) {
                 await axios.post(`${process.env.BASE_URI}/persona/marry`, { user_id: sender.id, persona_id: persona.id })
                 const index = personaStorage.roulettePersonas.findIndex(persona => persona.id == 'persona._id')
                 personaStorage.removePersona(index)
-                sendMessage(group_id, `💍 *${sender.name}* married *${persona.name}* 💍`)
+                sendMessage(group_id, `💍 *${sender.pushname}* casou com *${persona.name}* 💍`)
             }
         } catch (err) {
             console.error(err)
@@ -124,7 +125,7 @@ const verifyUser = async (sender) => {
         const user = await axios.post(`${process.env.BASE_URI}/user/verify`, sender)
         return user.data
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 
