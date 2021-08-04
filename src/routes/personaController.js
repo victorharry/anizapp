@@ -39,7 +39,7 @@ router.get('/status/:id', async (req, res) => {
 })
 
 router.post('/search', async (req, res) => {
-    const personaName = new RegExp("^" + req.body.name, "i")
+    const personaName = new RegExp("^" + req.body.name + "$", "i")
     try {
         const persona = await Persona.findOne({ name: personaName }).exec();
         return res.json(persona)
