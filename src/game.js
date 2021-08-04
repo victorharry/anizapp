@@ -17,7 +17,7 @@ async function sendChosenPersona(sender, group_id, personaName) {
         const queryPersona = { name: personaName }
         const persona = await axios.post(`${process.env.BASE_URI}/persona/search`, queryPersona)
         const married = await axios.get(`${process.env.BASE_URI}/persona/status/${persona.data._id}`)
-        const user = await verifyUser({ id: married.data.user_id })
+        const user = married.data ? await verifyUser({ id: married.data.user_id }) : null
         const message = !married.data ?
             `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n` + '```Requested by:\n```' + `*${sender.pushname}*`
             :
@@ -111,7 +111,7 @@ async function getPersonaWithoutImage(sender, group_id) {
                 `❤️ *${persona.data.name}* ❤️\n\n${persona.data.title}\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
                 :
                 `❤️ *${persona.name}* ❤️\n\n${persona.title}\n\n💍 Married with ${married.name} 💍\n\n` + '```Roulette by:\n```' + `*${sender.pushname}*`
-            sendMessage(group_id, message)
+            sendMessage(group_id, message, personaStorage.timerToMarry(persona.data))
         } else {
             sendMessage(group_id, `Você não possui rolls no momento ⌚ ${getMinutesUntilNextThirty()}m restantes`)
         }
@@ -161,7 +161,7 @@ const createGame = () => {
                 sendChosenPersona(messageObject.sender, messageObject.chat.groupMetadata.id, personaName)
                 break
             case '$marry':
-                const requestedPersona = messageObject.quotedMsgObj.caption.match(/(?<=\❤️ \*)(.*?)(?=\* ❤️)/g)[0];
+                const requestedPersona = messageObject.quotedMsgObj.caption ? messageObject.quotedMsgObj.caption.match(/(?<=\❤️ \*)(.*?)(?=\* ❤️)/g)[0] : messageObject.quotedMsg.body.match(/(?<=\❤️ \*)(.*?)(?=\* ❤️)/g)[0];
                 marry(messageObject.sender, messageObject.chat.groupMetadata.id, requestedPersona)
                 break
             case '$trade':
