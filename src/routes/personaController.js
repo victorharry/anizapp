@@ -60,4 +60,15 @@ router.post('/marry', async (req, res) => {
     }
 })
 
+router.put('/trade', async (req, res) => {
+    try {
+        await UserPersona.findOneAndUpdate({ user_id: req.body.sender.id }, { persona_id: new ObjectId(req.body.remittee.persona_id) })
+        await UserPersona.findOneAndUpdate({ user_id: req.body.remittee.id }, { persona_id: new ObjectId(req.body.sender.persona_id) })
+        return res.status(200).send({ code: 200 })
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({ error: 'error' })
+    }
+})
+
 export default router;
